@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { ArrowRight, BookOpen, Zap, Shield, Users, Code, Terminal, Sparkles } from "lucide-react";
 import GetStartedBtn from "./get-started";
+import { api } from "@/lib/api";
 
 /* ─── Deterministic particles ─── */
 const PARTICLES = [
@@ -129,10 +130,10 @@ export const Hero = ({ previewData }: { previewData?: any }) => {
 
     const fetchContent = async () => {
       try {
-        // const res = await api.get('/public/content/home');
-        // if (res.data?.data?.hero) {
-        //   setHeroContent(res.data.data.hero);
-        // }
+        const res = await api.get('/public/content/home');
+        if (res.data?.data?.hero) {
+          setHeroContent(res.data.data.hero);
+        }
       } catch (e) {
         // fail silently, falls back to default layout
       }
