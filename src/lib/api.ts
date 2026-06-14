@@ -6,7 +6,8 @@ export type { AxiosError };
 // Since we are using static HTML export (output: 'export'), we cannot use Next.js
 // API rewrites. Therefore, we must ALWAYS hit the exact absolute API base URL directly.
 const getBaseURL = () => {
-  const rawURL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001";
+  const isLocal = process.env.NODE_ENV === "development";
+  const rawURL = isLocal ? "http://localhost:5001" : "https://ml-backend-5yif.onrender.com";
   return rawURL.endsWith("/api/v1") ? rawURL : `${rawURL}/api/v1`;
 };
 const baseURL = getBaseURL();
