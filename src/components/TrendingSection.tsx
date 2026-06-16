@@ -68,8 +68,8 @@ export default function TrendingSection() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        api.get("/posts/trending?limit=6")
-            .then((res: any) => setPosts(res.data?.data?.items || []))
+        api.get("/posts")
+            .then((res: any) => setPosts(res.data?.data?.trending?.slice(0, 6) || []))
             .catch(() => { })
             .finally(() => setLoading(false));
 
