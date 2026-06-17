@@ -7,6 +7,8 @@ import { useDeleteBlog } from "../hooks/use-delete-blog";
 import { useUpdateBlog } from "../hooks/use-update-blog";
 import { isAxiosError } from "@/lib/api";
 import { toast } from "sonner";
+import { Card } from "@/components/ui/Card";
+import { Button } from "@/components/ui/Button";
 
 export const BlogManagement = () => {
   const { data, isLoading, error, refetch } = useGetMyBlogs();
@@ -59,20 +61,22 @@ export const BlogManagement = () => {
 
   if (error) {
     return (
-      <div className="bg-red-500/10 border border-red-500/20 p-8 rounded-3xl text-center">
+      <Card className="bg-red-500/10 border-red-500/20 text-center">
         <p className="text-red-500 font-bold mb-2">
           Error loading blogs
         </p>
-        <p className="text-red-500/70 text-sm">
+        <p className="text-red-500/70 text-sm mb-4">
           {isAxiosError(error) ? error.message : "Something went wrong"}
         </p>
-        <button
+        <Button
+          variant="danger"
+          size="sm"
           onClick={() => refetch()}
-          className="mt-4 px-6 py-2 bg-red-600 hover:bg-red-700 text-white rounded-xl font-bold text-sm transition-colors"
+          className="mx-auto"
         >
           Retry
-        </button>
-      </div>
+        </Button>
+      </Card>
     );
   }
 
@@ -101,7 +105,7 @@ export const BlogManagement = () => {
       </div>
 
       {blogs.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-20 bg-theme-element border-2 border-dashed border-theme-accent/20 rounded-3xl">
+        <Card className="flex flex-col items-center justify-center py-20 border-2 border-dashed">
           <div className="w-16 h-16 rounded-2xl bg-theme-element-sec flex items-center justify-center text-foreground/50 mb-4 border border-theme-accent/10">
             <Plus size={32} />
           </div>
@@ -117,7 +121,7 @@ export const BlogManagement = () => {
           >
             Create blog now
           </Link>
-        </div>
+        </Card>
       ) : (
         <div className="grid gap-4">
           {blogs.map((blog: any) => {
@@ -185,15 +189,17 @@ export const BlogManagement = () => {
                 {/* Actions: hide Publish button if post is pending (awaiting admin approval) */}
                 <div className="flex items-center gap-2 p-1 bg-theme-element-sec border border-theme-accent/10 rounded-2xl md:ml-auto">
                   {!blog.published && blog.status !== 'pending' && (
-                    <button
+                    <Button
+                      variant="ghost"
+                      size="sm"
                       onClick={() => handleQuickPublish(blogId)}
                       disabled={isUpdating}
-                      className="p-3 text-theme-action hover:bg-theme-action hover:text-white rounded-xl transition-all shadow-sm group-hover:shadow hover:scale-105 flex items-center gap-2 cursor-pointer"
+                      className="text-theme-action hover:bg-theme-action hover:text-white"
                       title="Publish Now"
                     >
                       {isUpdating ? <Loader2 size={18} className="animate-spin" /> : <Sparkles size={18} />}
-                      <span className="text-[10px] font-black uppercase tracking-wider hidden sm:inline">Publish</span>
-                    </button>
+                      <span className="text-[10px] font-black uppercase tracking-wider hidden sm:inline ml-2">Publish</span>
+                    </Button>
                   )}
                   <Link
                     href={`/blog/edit/${blogId}`}
@@ -202,14 +208,16 @@ export const BlogManagement = () => {
                   >
                     <Edit2 size={18} />
                   </Link>
-                  <button
+                  <Button
+                    variant="ghost"
+                    size="sm"
                     onClick={() => handleDelete(blogId, blog.title)}
                     disabled={isDeleting}
-                    className="p-3 text-foreground/70 hover:text-red-500 hover:bg-theme-element rounded-xl transition-all shadow-sm group-hover:shadow hover:scale-105 cursor-pointer"
+                    className="text-foreground/70 hover:text-red-500 hover:bg-theme-element"
                     title="Delete post"
                   >
                     <Trash2 size={18} />
-                  </button>
+                  </Button>
                 </div>
               </div>
             );

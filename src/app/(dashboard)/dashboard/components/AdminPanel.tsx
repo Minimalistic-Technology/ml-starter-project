@@ -3,6 +3,8 @@
 import React, { useState, useEffect } from "react";
 import { ShieldAlert, CheckCircle, XCircle, Loader2, Newspaper, BookOpen, Settings2, ShieldCheck, Clock, FileText, User as UserIcon, Trash2, Plus, Users, Shield, Mail } from "lucide-react";
 import { api } from "@/lib/api";
+import { Button } from "@/components/ui/Button";
+import { Input } from "@/components/ui/Input";
 import { toast } from "sonner";
 import Link from "next/link";
 import { formatDistanceToNow } from "date-fns";
@@ -11,7 +13,7 @@ import { DatabaseStudio } from "./DatabaseStudio";
 
 /* ─── Modern Switch Component ─────────────────────────────────────────── */
 const ModernSwitch = ({ checked, onChange, loading, colorClass }: { checked: boolean; onChange: () => void; loading: boolean; colorClass: string }) => (
-  <button
+  <Button
     type="button"
     role="switch"
     aria-checked={checked}
@@ -27,7 +29,7 @@ const ModernSwitch = ({ checked, onChange, loading, colorClass }: { checked: boo
     >
       {loading ? <Loader2 size={12} className="animate-spin text-theme-action" /> : null}
     </span>
-  </button>
+  </Button>
 );
 
 const AdminPanel = () => {
@@ -430,7 +432,8 @@ const AdminPanel = () => {
 
       {/* ── TAB BAR NAVIGATION ──────────────────────────────────── */}
       <div className="flex flex-wrap border-b border-theme-accent/10 mb-8 gap-4 sm:gap-8 pb-3">
-        <button
+        <Button
+          variant="none" size="none"
           onClick={() => setActiveTab('system')}
           className={`flex items-center gap-2 pb-2 text-xs sm:text-sm font-black uppercase tracking-widest transition-all ${activeTab === 'system'
             ? 'text-theme-action border-b-2 border-theme-action scale-100'
@@ -439,9 +442,10 @@ const AdminPanel = () => {
         >
           <Settings2 size={16} className={activeTab === 'system' ? 'text-theme-action' : 'text-foreground/45'} />
           System Settings & Queue
-        </button>
+        </Button>
 
-        <button
+        <Button
+          variant="none" size="none"
           onClick={() => setActiveTab('permissions')}
           className={`flex items-center gap-2 pb-2 text-xs sm:text-sm font-black uppercase tracking-widest transition-all ${activeTab === 'permissions'
             ? 'text-theme-action border-b-2 border-theme-action scale-100'
@@ -450,9 +454,10 @@ const AdminPanel = () => {
         >
           <Shield size={16} className={activeTab === 'permissions' ? 'text-theme-action' : 'text-foreground/45'} />
           Route & RBAC Control
-        </button>
+        </Button>
 
-        <button
+        <Button
+          variant="none" size="none"
           onClick={() => setActiveTab('users')}
           className={`flex items-center gap-2 pb-2 text-xs sm:text-sm font-black uppercase tracking-widest transition-all ${activeTab === 'users'
             ? 'text-theme-action border-b-2 border-theme-action scale-100'
@@ -461,9 +466,10 @@ const AdminPanel = () => {
         >
           <Users size={16} className={activeTab === 'users' ? 'text-theme-action' : 'text-foreground/45'} />
           User Accounts
-        </button>
+        </Button>
 
-        <button
+        <Button
+          variant="none" size="none"
           onClick={() => setActiveTab('homepage')}
           className={`flex items-center gap-2 pb-2 text-xs sm:text-sm font-black uppercase tracking-widest transition-all ${activeTab === 'homepage'
             ? 'text-theme-action border-b-2 border-theme-action scale-100'
@@ -472,9 +478,10 @@ const AdminPanel = () => {
         >
           <BookOpen size={16} className={activeTab === 'homepage' ? 'text-theme-action' : 'text-foreground/45'} />
           Homepage Layout
-        </button>
+        </Button>
 
-        <button
+        <Button
+          variant="none" size="none"
           onClick={() => setActiveTab('subscribers')}
           className={`flex items-center gap-2 pb-2 text-xs sm:text-sm font-black uppercase tracking-widest transition-all ${activeTab === 'subscribers'
             ? 'text-theme-action border-b-2 border-theme-action scale-100'
@@ -483,9 +490,10 @@ const AdminPanel = () => {
         >
           <Mail size={16} className={activeTab === 'subscribers' ? 'text-theme-action' : 'text-foreground/45'} />
           Subscribers
-        </button>
+        </Button>
 
-        <button
+        <Button
+          variant="none" size="none"
           onClick={() => setActiveTab('team')}
           className={`flex items-center gap-2 pb-2 text-xs sm:text-sm font-black uppercase tracking-widest transition-all ${activeTab === 'team'
             ? 'text-theme-action border-b-2 border-theme-action scale-100'
@@ -494,8 +502,9 @@ const AdminPanel = () => {
         >
           <UserIcon size={16} className={activeTab === 'team' ? 'text-theme-action' : 'text-foreground/45'} />
           Team Management
-        </button>
-        <button
+        </Button>
+        <Button
+          variant="none" size="none"
           onClick={() => setActiveTab('database')}
           className={`flex items-center gap-2 pb-2 text-xs sm:text-sm font-black uppercase tracking-widest transition-all ${activeTab === 'database'
             ? 'text-theme-action border-b-2 border-theme-action scale-100'
@@ -508,7 +517,7 @@ const AdminPanel = () => {
             <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
           </svg>
           SQLite Studio
-        </button>
+        </Button>
       </div>
 
       {/* ── TAB CONTENT: SYSTEM SETTINGS ─────────────────────────── */}
@@ -616,22 +625,22 @@ const AdminPanel = () => {
                           </div>
 
                           <div className="flex items-center gap-2.5 md:ml-auto shrink-0 pt-3 md:pt-0 border-t border-theme-accent/10 md:border-none">
-                            <button
+                            <Button
                               onClick={() => handleApprove(postId)}
                               disabled={!!actionLoading}
                               className="flex items-center justify-center gap-2 px-5 py-2.5 bg-foreground hover:bg-theme-action text-background text-xs font-black rounded-xl transition-all shadow-sm disabled:opacity-60 disabled:cursor-not-allowed group/btn"
                             >
                               {actionLoading === postId + '-approve' ? <Loader2 size={16} className="animate-spin" /> : <CheckCircle size={16} className="group-hover/btn:scale-110 transition-transform" />}
                               Approve
-                            </button>
-                            <button
+                            </Button>
+                            <Button
                               onClick={() => handleReject(postId)}
                               disabled={!!actionLoading}
                               className="flex items-center justify-center gap-2 px-5 py-2.5 bg-theme-element hover:bg-red-500/10 text-foreground/70 hover:text-red-500 text-xs font-black rounded-xl border border-theme-accent/20 hover:border-red-500/30 transition-all disabled:opacity-60 disabled:cursor-not-allowed group/btn"
                             >
                               {actionLoading === postId + '-reject' ? <Loader2 size={16} className="animate-spin" /> : <XCircle size={16} className="group-hover/btn:scale-110 transition-transform" />}
                               Reject
-                            </button>
+                            </Button>
                           </div>
                         </div>
                       </div>
@@ -659,7 +668,7 @@ const AdminPanel = () => {
             <form onSubmit={handleAddPermission} className="grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
               <div className="md:col-span-3">
                 <label className="block text-xs font-black uppercase tracking-wider mb-2 text-foreground/75">Route Path (Exact / Template)</label>
-                <input
+                <Input
                   type="text"
                   placeholder="e.g. /api/v1/posts/:blogId"
                   value={newPath}
@@ -670,7 +679,7 @@ const AdminPanel = () => {
 
               <div className="md:col-span-3">
                 <label className="block text-xs font-black uppercase tracking-wider mb-2 text-foreground/75">Rule Name / Description</label>
-                <input
+                <Input
                   type="text"
                   placeholder="e.g. Create Blog Post"
                   value={newDescription}
@@ -708,14 +717,14 @@ const AdminPanel = () => {
               </div>
 
               <div className="md:col-span-2">
-                <button
+                <Button
                   type="submit"
                   disabled={isNewPermLoading}
                   className="w-full bg-theme-action hover:bg-theme-action/90 text-white font-black text-sm uppercase py-3.5 px-6 rounded-xl transition-all flex items-center justify-center gap-2 shadow-sm disabled:opacity-50"
                 >
                   {isNewPermLoading ? <Loader2 size={16} className="animate-spin" /> : <Plus size={16} />}
                   Add Rule
-                </button>
+                </Button>
               </div>
             </form>
           </div>
@@ -728,7 +737,7 @@ const AdminPanel = () => {
                 <p className="text-xs font-bold text-foreground/50 uppercase tracking-widest">PostgreSQL Real-Time Guard Rules</p>
               </div>
               <div className="w-full sm:w-72">
-                <input
+                <Input
                   type="text"
                   placeholder="Search rules path or role..."
                   value={permSearch}
@@ -789,13 +798,13 @@ const AdminPanel = () => {
                           </div>
                         </td>
                         <td className="py-4 px-6 text-right">
-                          <button
+                          <Button
                             onClick={() => handleDeletePermission(perm.id)}
                             className="p-2 text-foreground/45 hover:text-red-500 transition-colors"
                             title="Delete Permission Rule"
                           >
                             <Trash2 size={16} />
-                          </button>
+                          </Button>
                         </td>
                       </tr>
                     ))
@@ -811,23 +820,23 @@ const AdminPanel = () => {
                   Showing {(permPage - 1) * itemsPerPage + 1} - {Math.min(permPage * itemsPerPage, filteredPermissions.length)} of {filteredPermissions.length} rules
                 </p>
                 <div className="flex gap-2">
-                  <button
+                  <Button
                     disabled={permPage === 1}
                     onClick={() => setPermPage(prev => Math.max(prev - 1, 1))}
                     className="px-4 py-2 bg-theme-element border border-theme-accent/20 text-foreground text-xs font-black rounded-lg transition-all hover:bg-theme-element-sec disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     Previous
-                  </button>
+                  </Button>
                   <span className="px-4 py-2 bg-theme-element-sec border border-theme-accent/10 text-foreground text-xs font-black rounded-lg select-none">
                     Page {permPage} of {totalPermPages}
                   </span>
-                  <button
+                  <Button
                     disabled={permPage === totalPermPages}
                     onClick={() => setPermPage(prev => Math.min(prev + 1, totalPermPages))}
                     className="px-4 py-2 bg-theme-element border border-theme-accent/20 text-foreground text-xs font-black rounded-lg transition-all hover:bg-theme-element-sec disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     Next
-                  </button>
+                  </Button>
                 </div>
               </div>
             )}
@@ -887,13 +896,13 @@ const AdminPanel = () => {
                           </span>
                         </td>
                         <td className="py-4 px-6 text-right">
-                          <button
+                          <Button
                             onClick={() => handleDeleteUser(item.id)}
                             className="p-2 text-foreground/45 hover:text-red-500 transition-colors"
                             title="Delete User Account"
                           >
                             <Trash2 size={16} />
-                          </button>
+                          </Button>
                         </td>
                       </tr>
                     ))
@@ -934,7 +943,7 @@ const AdminPanel = () => {
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-background/50 p-6 rounded-[1.5rem] border border-theme-accent/5">
                         <div className="space-y-2 md:col-span-2">
                           <label className="block text-xs font-bold uppercase tracking-widest text-foreground/60">Badge Text</label>
-                          <input
+                          <Input
                             type="text"
                             value={heroBadgeText}
                             onChange={(e) => setHeroBadgeText(e.target.value)}
@@ -945,7 +954,7 @@ const AdminPanel = () => {
 
                         <div className="space-y-2 lg:col-span-1">
                           <label className="block text-xs font-bold uppercase tracking-widest text-foreground/60">Top Text</label>
-                          <input
+                          <Input
                             type="text"
                             value={heroTitle}
                             onChange={(e) => setHeroTitle(e.target.value)}
@@ -956,7 +965,7 @@ const AdminPanel = () => {
 
                         <div className="space-y-2 lg:col-span-1">
                           <label className="block text-xs font-bold uppercase tracking-widest text-foreground/60 text-theme-action">Gradient Word</label>
-                          <input
+                          <Input
                             type="text"
                             value={heroHighlight}
                             onChange={(e) => setHeroHighlight(e.target.value)}
@@ -967,7 +976,7 @@ const AdminPanel = () => {
 
                         <div className="space-y-2 md:col-span-2">
                           <label className="block text-xs font-bold uppercase tracking-widest text-foreground/60">Bottom Line Text</label>
-                          <input
+                          <Input
                             type="text"
                             value={heroBottomText}
                             onChange={(e) => setHeroBottomText(e.target.value)}
@@ -997,7 +1006,7 @@ const AdminPanel = () => {
                       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 bg-background/50 p-6 rounded-[1.5rem] border border-theme-accent/5">
                         <div className="space-y-2 lg:col-span-1">
                           <label className="block text-xs font-bold uppercase tracking-widest text-foreground/60">CTA Title</label>
-                          <input
+                          <Input
                             type="text"
                             value={ctaTitle}
                             onChange={(e) => setCtaTitle(e.target.value)}
@@ -1008,7 +1017,7 @@ const AdminPanel = () => {
 
                         <div className="space-y-2 lg:col-span-2">
                           <label className="block text-xs font-bold uppercase tracking-widest text-foreground/60">CTA Subtitle</label>
-                          <input
+                          <Input
                             type="text"
                             value={ctaSubtitle}
                             onChange={(e) => setCtaSubtitle(e.target.value)}
@@ -1027,7 +1036,7 @@ const AdminPanel = () => {
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-background/50 p-6 rounded-[1.5rem] border border-theme-accent/5">
                         <div className="space-y-2">
                           <label className="block text-xs font-bold uppercase tracking-widest text-foreground/60">Trending Badge</label>
-                          <input
+                          <Input
                             type="text"
                             value={trendingBadge}
                             onChange={(e) => setTrendingBadge(e.target.value)}
@@ -1038,7 +1047,7 @@ const AdminPanel = () => {
 
                         <div className="space-y-2">
                           <label className="block text-xs font-bold uppercase tracking-widest text-foreground/60">Trending Main Title</label>
-                          <input
+                          <Input
                             type="text"
                             value={trendingTitle}
                             onChange={(e) => setTrendingTitle(e.target.value)}
@@ -1059,15 +1068,15 @@ const AdminPanel = () => {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           <div className="space-y-2">
                             <label className="block text-xs font-bold uppercase tracking-widest text-foreground/60">Advantage Badge</label>
-                            <input type="text" value={advantageBadge} onChange={(e) => setAdvantageBadge(e.target.value)} className="w-full px-4 py-3 bg-theme-element border-2 border-theme-accent/10 rounded-xl text-sm font-bold outline-none focus:border-theme-action" />
+                            <Input type="text" value={advantageBadge} onChange={(e) => setAdvantageBadge(e.target.value)} className="w-full px-4 py-3 bg-theme-element border-2 border-theme-accent/10 rounded-xl text-sm font-bold outline-none focus:border-theme-action" />
                           </div>
                           <div className="space-y-2">
                             <label className="block text-xs font-bold uppercase tracking-widest text-foreground/60">Advantage Left Title</label>
-                            <input type="text" value={advantageTitle1} onChange={(e) => setAdvantageTitle1(e.target.value)} className="w-full px-4 py-3 bg-theme-element border-2 border-theme-accent/10 rounded-xl text-sm font-bold outline-none focus:border-theme-action" />
+                            <Input type="text" value={advantageTitle1} onChange={(e) => setAdvantageTitle1(e.target.value)} className="w-full px-4 py-3 bg-theme-element border-2 border-theme-accent/10 rounded-xl text-sm font-bold outline-none focus:border-theme-action" />
                           </div>
                           <div className="space-y-2 md:col-span-2">
                             <label className="block text-xs font-bold uppercase tracking-widest text-theme-action">Advantage Highlight Title</label>
-                            <input type="text" value={advantageTitle2} onChange={(e) => setAdvantageTitle2(e.target.value)} className="w-full px-4 py-3 bg-theme-element border-2 border-theme-action/30 rounded-xl text-sm font-bold text-theme-action outline-none focus:border-theme-action" />
+                            <Input type="text" value={advantageTitle2} onChange={(e) => setAdvantageTitle2(e.target.value)} className="w-full px-4 py-3 bg-theme-element border-2 border-theme-action/30 rounded-xl text-sm font-bold text-theme-action outline-none focus:border-theme-action" />
                           </div>
                         </div>
 
@@ -1075,9 +1084,9 @@ const AdminPanel = () => {
                         <div className="p-4 bg-theme-element rounded-xl border border-theme-accent/10 space-y-4">
                           <h5 className="font-bold text-sm text-foreground/80">Card 1: Focus</h5>
                           <div className="grid grid-cols-2 gap-4">
-                            <input type="text" value={bento1.stat} onChange={e => setBento1({ ...bento1, stat: e.target.value })} placeholder="Stat (e.g. 100%)" className="px-3 py-2 text-sm bg-background border border-theme-accent/10 rounded-lg outline-none focus:border-theme-action" />
-                            <input type="text" value={bento1.label} onChange={e => setBento1({ ...bento1, label: e.target.value })} placeholder="Label (e.g. Ad Free)" className="px-3 py-2 text-sm bg-background border border-theme-accent/10 rounded-lg outline-none focus:border-theme-action" />
-                            <input type="text" value={bento1.title} onChange={e => setBento1({ ...bento1, title: e.target.value })} placeholder="Title" className="col-span-2 px-3 py-2 text-sm bg-background border border-theme-accent/10 rounded-lg outline-none focus:border-theme-action" />
+                            <Input type="text" value={bento1.stat} onChange={e => setBento1({ ...bento1, stat: e.target.value })} placeholder="Stat (e.g. 100%)" className="px-3 py-2 text-sm bg-background border border-theme-accent/10 rounded-lg outline-none focus:border-theme-action" />
+                            <Input type="text" value={bento1.label} onChange={e => setBento1({ ...bento1, label: e.target.value })} placeholder="Label (e.g. Ad Free)" className="px-3 py-2 text-sm bg-background border border-theme-accent/10 rounded-lg outline-none focus:border-theme-action" />
+                            <Input type="text" value={bento1.title} onChange={e => setBento1({ ...bento1, title: e.target.value })} placeholder="Title" className="col-span-2 px-3 py-2 text-sm bg-background border border-theme-accent/10 rounded-lg outline-none focus:border-theme-action" />
                             <textarea value={bento1.desc} onChange={e => setBento1({ ...bento1, desc: e.target.value })} placeholder="Description" rows={2} className="col-span-2 px-3 py-2 text-sm bg-background border border-theme-accent/10 rounded-lg outline-none focus:border-theme-action resize-y" />
                           </div>
                         </div>
@@ -1086,9 +1095,9 @@ const AdminPanel = () => {
                         <div className="p-4 bg-theme-element rounded-xl border border-theme-accent/10 space-y-4">
                           <h5 className="font-bold text-sm text-foreground/80">Card 2: Quality</h5>
                           <div className="grid grid-cols-2 gap-4">
-                            <input type="text" value={bento2.stat} onChange={e => setBento2({ ...bento2, stat: e.target.value })} placeholder="Stat (e.g. 4.9★)" className="px-3 py-2 text-sm bg-background border border-theme-accent/10 rounded-lg outline-none focus:border-theme-action" />
-                            <input type="text" value={bento2.label} onChange={e => setBento2({ ...bento2, label: e.target.value })} placeholder="Label" className="px-3 py-2 text-sm bg-background border border-theme-accent/10 rounded-lg outline-none focus:border-theme-action" />
-                            <input type="text" value={bento2.title} onChange={e => setBento2({ ...bento2, title: e.target.value })} placeholder="Title" className="col-span-2 px-3 py-2 text-sm bg-background border border-theme-accent/10 rounded-lg outline-none focus:border-theme-action" />
+                            <Input type="text" value={bento2.stat} onChange={e => setBento2({ ...bento2, stat: e.target.value })} placeholder="Stat (e.g. 4.9★)" className="px-3 py-2 text-sm bg-background border border-theme-accent/10 rounded-lg outline-none focus:border-theme-action" />
+                            <Input type="text" value={bento2.label} onChange={e => setBento2({ ...bento2, label: e.target.value })} placeholder="Label" className="px-3 py-2 text-sm bg-background border border-theme-accent/10 rounded-lg outline-none focus:border-theme-action" />
+                            <Input type="text" value={bento2.title} onChange={e => setBento2({ ...bento2, title: e.target.value })} placeholder="Title" className="col-span-2 px-3 py-2 text-sm bg-background border border-theme-accent/10 rounded-lg outline-none focus:border-theme-action" />
                             <textarea value={bento2.desc} onChange={e => setBento2({ ...bento2, desc: e.target.value })} placeholder="Description" rows={2} className="col-span-2 px-3 py-2 text-sm bg-background border border-theme-accent/10 rounded-lg outline-none focus:border-theme-action resize-y" />
                           </div>
                         </div>
@@ -1097,9 +1106,9 @@ const AdminPanel = () => {
                         <div className="p-4 bg-theme-element rounded-xl border border-theme-accent/10 space-y-4">
                           <h5 className="font-bold text-sm text-foreground/80">Card 3: Community</h5>
                           <div className="grid grid-cols-2 gap-4">
-                            <input type="text" value={bento3.stat} onChange={e => setBento3({ ...bento3, stat: e.target.value })} placeholder="Stat (e.g. 12k+)" className="px-3 py-2 text-sm bg-background border border-theme-accent/10 rounded-lg outline-none focus:border-theme-action" />
-                            <input type="text" value={bento3.label} onChange={e => setBento3({ ...bento3, label: e.target.value })} placeholder="Label" className="px-3 py-2 text-sm bg-background border border-theme-accent/10 rounded-lg outline-none focus:border-theme-action" />
-                            <input type="text" value={bento3.title} onChange={e => setBento3({ ...bento3, title: e.target.value })} placeholder="Title" className="col-span-2 px-3 py-2 text-sm bg-background border border-theme-accent/10 rounded-lg outline-none focus:border-theme-action" />
+                            <Input type="text" value={bento3.stat} onChange={e => setBento3({ ...bento3, stat: e.target.value })} placeholder="Stat (e.g. 12k+)" className="px-3 py-2 text-sm bg-background border border-theme-accent/10 rounded-lg outline-none focus:border-theme-action" />
+                            <Input type="text" value={bento3.label} onChange={e => setBento3({ ...bento3, label: e.target.value })} placeholder="Label" className="px-3 py-2 text-sm bg-background border border-theme-accent/10 rounded-lg outline-none focus:border-theme-action" />
+                            <Input type="text" value={bento3.title} onChange={e => setBento3({ ...bento3, title: e.target.value })} placeholder="Title" className="col-span-2 px-3 py-2 text-sm bg-background border border-theme-accent/10 rounded-lg outline-none focus:border-theme-action" />
                             <textarea value={bento3.desc} onChange={e => setBento3({ ...bento3, desc: e.target.value })} placeholder="Description" rows={2} className="col-span-2 px-3 py-2 text-sm bg-background border border-theme-accent/10 rounded-lg outline-none focus:border-theme-action resize-y" />
                           </div>
                         </div>
@@ -1107,14 +1116,14 @@ const AdminPanel = () => {
                     </div>
 
                     <div className="pt-6 border-t border-theme-accent/10 sticky bottom-0 bg-theme-element py-4 z-20">
-                      <button
+                      <Button
                         type="submit"
                         disabled={isSavingHero}
                         className="flex items-center justify-center gap-2 px-8 py-3 bg-theme-action text-white text-sm font-black rounded-xl transition-all disabled:opacity-60 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-theme-action/20"
                       >
                         {isSavingHero ? <Loader2 size={16} className="animate-spin" /> : <Settings2 size={16} />}
                         Save Hero Settings
-                      </button>
+                      </Button>
                     </div>
                   </form>
                 </div>
@@ -1205,7 +1214,7 @@ const AdminPanel = () => {
                 </h3>
                 <p className="text-xs text-foreground/50 font-bold uppercase tracking-widest">Public Roster Control</p>
               </div>
-              <button
+              <Button
                 onClick={() => {
                   setEditingTeamId(null);
                   setTeamForm({ name: '', role: '', bio: '', imageUrl: '', twitterUrl: '', githubUrl: '', linkedinUrl: '' });
@@ -1214,7 +1223,7 @@ const AdminPanel = () => {
                 className="px-5 py-2.5 bg-emerald-500 text-white font-black text-xs rounded-xl shadow-lg hover:shadow-emerald-500/20 hover:-translate-y-0.5 transition-all flex items-center gap-2"
               >
                 <Plus size={16} /> Add Member
-              </button>
+              </Button>
             </div>
 
             <div className="grid gap-4">
@@ -1238,7 +1247,7 @@ const AdminPanel = () => {
                     </div>
                   </div>
                   <div className="flex gap-2 shrink-0 border-t border-theme-accent/10 pt-3 md:pt-0 md:border-none">
-                    <button
+                    <Button
                       onClick={() => {
                         setEditingTeamId(t.id);
                         setTeamForm({
@@ -1255,8 +1264,8 @@ const AdminPanel = () => {
                       className="px-3 py-1.5 bg-background border border-theme-accent/20 text-xs font-bold rounded-lg hover:border-theme-action transition-all text-foreground/70 outline-none"
                     >
                       Edit Profile
-                    </button>
-                    <button onClick={() => {
+                    </Button>
+                    <Button onClick={() => {
                       if (confirm("Are you sure you want to remove " + t.name + "?")) {
                         const previousMembers = teamMembers;
                         setTeamMembers(prev => prev.filter(item => item.id !== t.id)); // Optimistic UI
@@ -1269,7 +1278,7 @@ const AdminPanel = () => {
                       }
                     }} className="px-3 py-1.5 bg-red-500/10 border border-red-500/20 text-red-500 text-xs font-bold rounded-lg hover:bg-red-500 hover:text-white transition-all outline-none">
                       Remove
-                    </button>
+                    </Button>
                   </div>
                 </div>
               ))}
@@ -1282,20 +1291,20 @@ const AdminPanel = () => {
               <div className="bg-theme-element border border-theme-accent/20 w-full max-w-xl rounded-[2rem] shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
                 <div className="flex items-center justify-between p-6 border-b border-theme-accent/10 bg-theme-element-sec/50">
                   <h3 className="text-xl font-black text-foreground">{editingTeamId ? 'Edit Team Member' : 'Add New Member'}</h3>
-                  <button onClick={() => setTeamModalOpen(false)} className="text-foreground/50 hover:text-foreground">
+                  <Button onClick={() => setTeamModalOpen(false)} className="text-foreground/50 hover:text-foreground">
                     <XCircle size={24} />
-                  </button>
+                  </Button>
                 </div>
                 <div className="p-6 overflow-y-auto custom-scrollbar flex-1">
                   <form id="team-form" onSubmit={handleSaveTeamMember} className="space-y-5">
                     <div className="grid grid-cols-2 gap-5">
                       <div className="col-span-2 sm:col-span-1">
                         <label className="block text-xs font-black uppercase tracking-wider mb-2 text-foreground/75">Full Name *</label>
-                        <input required type="text" value={teamForm.name} onChange={e => setTeamForm({ ...teamForm, name: e.target.value })} className="w-full bg-background border border-theme-accent/20 px-4 py-3 rounded-xl text-sm focus:outline-none focus:border-emerald-500 text-foreground" placeholder="John Doe" />
+                        <Input required type="text" value={teamForm.name} onChange={e => setTeamForm({ ...teamForm, name: e.target.value })} className="w-full bg-background border border-theme-accent/20 px-4 py-3 rounded-xl text-sm focus:outline-none focus:border-emerald-500 text-foreground" placeholder="John Doe" />
                       </div>
                       <div className="col-span-2 sm:col-span-1">
                         <label className="block text-xs font-black uppercase tracking-wider mb-2 text-foreground/75">Role / Position *</label>
-                        <input required type="text" value={teamForm.role} onChange={e => setTeamForm({ ...teamForm, role: e.target.value })} className="w-full bg-background border border-theme-accent/20 px-4 py-3 rounded-xl text-sm focus:outline-none focus:border-emerald-500 text-foreground" placeholder="e.g. Senior Instructor" />
+                        <Input required type="text" value={teamForm.role} onChange={e => setTeamForm({ ...teamForm, role: e.target.value })} className="w-full bg-background border border-theme-accent/20 px-4 py-3 rounded-xl text-sm focus:outline-none focus:border-emerald-500 text-foreground" placeholder="e.g. Senior Instructor" />
                       </div>
                     </div>
 
@@ -1305,11 +1314,11 @@ const AdminPanel = () => {
                         {isUploadingImage && <div className="flex items-center gap-1.5 text-emerald-500 font-bold text-[10px]"><Loader2 size={12} className="animate-spin" /> Uploading to Cloudinary...</div>}
                       </label>
                       <div className="flex gap-2 relative">
-                        <input type="text" value={teamForm.imageUrl} onChange={e => setTeamForm({ ...teamForm, imageUrl: e.target.value })} className="flex-1 w-full bg-background border border-theme-accent/20 px-4 py-3 rounded-xl text-sm focus:outline-none focus:border-emerald-500 text-foreground" placeholder="https://..." />
+                        <Input type="text" value={teamForm.imageUrl} onChange={e => setTeamForm({ ...teamForm, imageUrl: e.target.value })} className="flex-1 w-full bg-background border border-theme-accent/20 px-4 py-3 rounded-xl text-sm focus:outline-none focus:border-emerald-500 text-foreground" placeholder="https://..." />
 
                         <div className="relative overflow-hidden w-auto shrink-0 bg-theme-element-sec hover:bg-theme-element border border-theme-accent/20 rounded-xl px-4 py-3 text-xs font-black uppercase flex items-center justify-center cursor-pointer transition-colors shadow-sm outline-none">
                           <span className="text-foreground/80 pointer-events-none">Upload File</span>
-                          <input
+                          <Input
                             type="file"
                             accept="image/*"
                             onChange={handleImageUpload}
@@ -1328,27 +1337,27 @@ const AdminPanel = () => {
                     <div className="grid grid-cols-3 gap-3">
                       <div>
                         <label className="block text-[10px] font-black uppercase tracking-wider mb-1 text-foreground/75">GitHub</label>
-                        <input type="text" value={teamForm.githubUrl} onChange={e => setTeamForm({ ...teamForm, githubUrl: e.target.value })} className="w-full bg-background border border-theme-accent/20 px-3 py-2 rounded-lg text-xs focus:outline-none focus:border-emerald-500" placeholder="Username/URL" />
+                        <Input type="text" value={teamForm.githubUrl} onChange={e => setTeamForm({ ...teamForm, githubUrl: e.target.value })} className="w-full bg-background border border-theme-accent/20 px-3 py-2 rounded-lg text-xs focus:outline-none focus:border-emerald-500" placeholder="Username/URL" />
                       </div>
                       <div>
                         <label className="block text-[10px] font-black uppercase tracking-wider mb-1 text-foreground/75">LinkedIn</label>
-                        <input type="text" value={teamForm.linkedinUrl} onChange={e => setTeamForm({ ...teamForm, linkedinUrl: e.target.value })} className="w-full bg-background border border-theme-accent/20 px-3 py-2 rounded-lg text-xs focus:outline-none focus:border-emerald-500" placeholder="Username/URL" />
+                        <Input type="text" value={teamForm.linkedinUrl} onChange={e => setTeamForm({ ...teamForm, linkedinUrl: e.target.value })} className="w-full bg-background border border-theme-accent/20 px-3 py-2 rounded-lg text-xs focus:outline-none focus:border-emerald-500" placeholder="Username/URL" />
                       </div>
                       <div>
                         <label className="block text-[10px] font-black uppercase tracking-wider mb-1 text-foreground/75">Twitter</label>
-                        <input type="text" value={teamForm.twitterUrl} onChange={e => setTeamForm({ ...teamForm, twitterUrl: e.target.value })} className="w-full bg-background border border-theme-accent/20 px-3 py-2 rounded-lg text-xs focus:outline-none focus:border-emerald-500" placeholder="Username/URL" />
+                        <Input type="text" value={teamForm.twitterUrl} onChange={e => setTeamForm({ ...teamForm, twitterUrl: e.target.value })} className="w-full bg-background border border-theme-accent/20 px-3 py-2 rounded-lg text-xs focus:outline-none focus:border-emerald-500" placeholder="Username/URL" />
                       </div>
                     </div>
                   </form>
                 </div>
                 <div className="p-6 border-t border-theme-accent/10 bg-theme-element flex justify-end gap-3 shrink-0">
-                  <button onClick={() => setTeamModalOpen(false)} className="px-6 py-3 bg-theme-element-sec border border-theme-accent/20 text-foreground text-xs font-black uppercase tracking-wider rounded-xl hover:bg-background transition-all">
+                  <Button onClick={() => setTeamModalOpen(false)} className="px-6 py-3 bg-theme-element-sec border border-theme-accent/20 text-foreground text-xs font-black uppercase tracking-wider rounded-xl hover:bg-background transition-all">
                     Cancel
-                  </button>
-                  <button type="submit" form="team-form" disabled={isSavingTeam} className="px-6 py-3 bg-emerald-500 text-white text-xs font-black uppercase tracking-wider rounded-xl hover:-translate-y-0.5 hover:shadow-lg hover:shadow-emerald-500/20 flex items-center justify-center gap-2 transition-all min-w-[120px] disabled:opacity-60 disabled:transform-none">
+                  </Button>
+                  <Button type="submit" form="team-form" disabled={isSavingTeam} className="px-6 py-3 bg-emerald-500 text-white text-xs font-black uppercase tracking-wider rounded-xl hover:-translate-y-0.5 hover:shadow-lg hover:shadow-emerald-500/20 flex items-center justify-center gap-2 transition-all min-w-[120px] disabled:opacity-60 disabled:transform-none">
                     {isSavingTeam ? <Loader2 size={16} className="animate-spin" /> : <CheckCircle size={16} />}
                     {editingTeamId ? 'Save Changes' : 'Add Member'}
-                  </button>
+                  </Button>
                 </div>
               </div>
             </div>
