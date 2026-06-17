@@ -194,6 +194,12 @@ const LoginForm = () => {
         <div className="space-y-1.5">
           <div className="flex justify-between items-center">
             <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300">Password</label>
+            <Link
+              href="/forgot-password"
+              className="text-xs font-semibold text-[#1877F2] hover:underline"
+            >
+              Forgot password?
+            </Link>
           </div>
           <div className="relative">
             <Input

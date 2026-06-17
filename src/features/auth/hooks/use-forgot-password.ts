@@ -3,6 +3,6 @@ import { authService } from "../services/auth-service";
 
 export const useForgotPassword = () => {
     return useMutation({
-        mutationFn: authService.forgotPassword,
+        mutationFn: (email: string) => authService.forgotPassword(email),
     });
 };
