@@ -9,10 +9,10 @@ export const metadata: Metadata = {
 
 export default function LoginPage() {
   return (
-    <div className="min-h-screen w-full flex flex-col lg:flex-row bg-white dark:bg-[#0a0a0a]">
+    <div className="h-[calc(100vh-4rem)] w-full flex flex-col lg:flex-row bg-white dark:bg-[#0a0a0a] overflow-hidden">
 
       {/* Left Full Height Split - Desktop Only */}
-      <div className="hidden lg:flex w-1/2 relative bg-white dark:bg-gray-900 items-center justify-center">
+      <div className="hidden lg:flex w-1/2 relative bg-white dark:bg-gray-900 items-center justify-center h-full">
         <Image
           src="/login-illustration.png"
           alt="Login Illustration"
@@ -23,7 +23,7 @@ export default function LoginPage() {
       </div>
 
       {/* Right Content Split */}
-      <div className="w-full lg:w-1/2 flex flex-col items-center justify-center p-6 sm:p-12 relative min-h-screen bg-gray-50 dark:bg-[#0a0a0a]">
+      <div className="w-full lg:w-1/2 flex flex-col items-center justify-center p-6 sm:p-12 relative h-full bg-gray-50 dark:bg-[#0a0a0a] overflow-y-auto custom-scrollbar">
         <div className="w-full max-w-[420px] z-10 flex flex-col justify-center">
           <LoginForm />
         </div>
