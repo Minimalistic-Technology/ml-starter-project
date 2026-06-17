@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
 import { ArrowRight, MapPin, Mail } from "lucide-react";
 import NewsletterForm from "./NewsletterForm";
 
@@ -26,9 +25,6 @@ const LinkedinIcon = ({ size = 16 }: { size?: number }) => (
 );
 
 export const Footer = () => {
-  const pathname = usePathname();
-  if (pathname === '/login' || pathname === '/register') return null;
-
   return (
     <footer className="w-full bg-theme-element-sec mt-auto border-t border-theme-accent/20 relative overflow-hidden transition-colors duration-500 shadow-sm">
 
