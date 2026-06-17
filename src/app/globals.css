@@ -40,17 +40,6 @@
 	--color-action: #29B6F6;
 }
 
-@media (prefers-color-scheme: dark) {
-	:root:not(.light) {
-		--background: #121212;
-		--foreground: #E0E0E0;
-
-		--color-element: #212121;
-		--color-element-sec: #1a1a1a;
-		--color-accent: #81D4FA;
-		--color-action: #29B6F6;
-	}
-}
 
 body {
 	background: var(--background);

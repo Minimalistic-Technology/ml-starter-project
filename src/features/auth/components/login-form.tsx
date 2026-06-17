@@ -15,6 +15,8 @@ import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 
+import { LoginResponse } from "../types/auth-response";
+
 const LoginForm = () => {
   const { refreshUser } = useAuth();
 
@@ -30,7 +32,7 @@ const LoginForm = () => {
 
   const onSubmit = (data: LoginValues) => {
     loginMutate(data, {
-      onSuccess: (res: any) => {
+      onSuccess: (res: LoginResponse) => {
         const userRole = res?.data?.user?.role?.toLowerCase();
         toast.success("Login successful! Welcome back.");
         setTimeout(() => {

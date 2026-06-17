@@ -1,6 +1,6 @@
 import { api } from "@/lib/api";
 import { LoginValues, RegisterValues } from "../types/auth-type";
-import { LoginResponse, SignupResponse } from "../types/auth-response";
+import { ApiResponse, LoginResponse, SignupResponse } from "../types/auth-response";
 
 export const authService = {
   login: async (data: LoginValues): Promise<LoginResponse> => {
@@ -22,11 +22,11 @@ export const authService = {
   logout: async (): Promise<void> => {
     await api.post("/auth/logout");
   },
-  forgotPassword: async (email: string): Promise<any> => {
+  forgotPassword: async (email: string): Promise<ApiResponse<null>> => {
     const response = await api.post("/auth/password-reset/initiate", { email });
     return response.data;
   },
-  resetPassword: async (data: { email: string; token: string; password: string }): Promise<any> => {
+  resetPassword: async (data: { email: string; token: string; password: string }): Promise<ApiResponse<null>> => {
     const response = await api.post("/auth/password-reset/complete", data);
     return response.data;
   },

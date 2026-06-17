@@ -3,6 +3,7 @@
 import React, { useState, Suspense } from "react";
 import { useResetPassword } from "@/features/auth/hooks/use-reset-password";
 import { isAxiosError } from "@/lib/api";
+import { ApiResponse } from "@/features/auth/types/auth-response";
 import { toast } from "sonner";
 import { Lock, ArrowLeft, ShieldCheck, Loader2 } from "lucide-react";
 import Link from "next/link";
@@ -42,7 +43,7 @@ function ResetPasswordForm() {
         }
 
         mutate({ email, token, password }, {
-            onSuccess: (res: any) => {
+            onSuccess: (res: ApiResponse<null>) => {
                 toast.success(res?.message || "Password reset successfully!");
                 setIsSuccess(true);
             },

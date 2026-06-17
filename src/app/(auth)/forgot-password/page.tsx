@@ -9,6 +9,7 @@ import Link from "next/link";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
+import { ApiResponse } from "@/features/auth/types/auth-response";
 
 export default function ForgotPasswordPage() {
     const [email, setEmail] = useState("");
@@ -23,7 +24,7 @@ export default function ForgotPasswordPage() {
         }
 
         mutate(email, {
-            onSuccess: (res: any) => {
+            onSuccess: (res: ApiResponse<null>) => {
                 toast.success(res?.message || "Reset link sent!");
                 setIsSuccess(true);
             },
