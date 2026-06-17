@@ -21,14 +21,23 @@ function ResetPasswordForm() {
     const { mutate, isPending } = useResetPassword();
     const [isSuccess, setIsSuccess] = useState(false);
 
+    // Real-time validation matching backend schema
+    const checks = {
+        length: password.length >= 8,
+        uppercase: /[A-Z]/.test(password),
+        lowercase: /[a-z]/.test(password),
+        number: /[0-9]/.test(password),
+    };
+    const isValid = Object.values(checks).every(Boolean);
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (!token || !email) {
             toast.error("Invalid or missing reset token.");
             return;
         }
-        if (password.length < 8) {
-            toast.error("Password must be at least 8 characters long.");
+        if (!isValid) {
+            toast.error("Please meet all password requirements.");
             return;
         }
 
@@ -102,13 +111,29 @@ function ResetPasswordForm() {
                             required
                         />
                     </div>
+                    {/* Live password requirements */}
+                    {password.length > 0 && (
+                        <ul className="mt-2 space-y-1 text-xs">
+                            {[
+                                { pass: checks.length, label: "At least 8 characters" },
+                                { pass: checks.uppercase, label: "One uppercase letter (A-Z)" },
+                                { pass: checks.lowercase, label: "One lowercase letter (a-z)" },
+                                { pass: checks.number, label: "One number (0-9)" },
+                            ].map(({ pass, label }) => (
+                                <li key={label} className={`flex items-center gap-1.5 font-medium transition-colors ${pass ? "text-emerald-500" : "text-gray-400 dark:text-gray-500"}`}>
+                                    <span>{pass ? "✓" : "○"}</span>
+                                    {label}
+                                </li>
+                            ))}
+                        </ul>
+                    )}
                 </div>
 
                 <Button
                     type="submit"
-                    disabled={isPending}
+                    disabled={isPending || !isValid}
                     fullWidth
-                    className="py-3.5 bg-[#1877F2] hover:bg-[#166FE5] text-white font-bold border-0 shadow-[0_4px_15px_rgba(24,119,242,0.3)] transition-all hover:shadow-[0_6px_20px_rgba(24,119,242,0.4)] hover:-translate-y-0.5"
+                    className="py-3.5 bg-[#1877F2] hover:bg-[#166FE5] text-white font-bold border-0 shadow-[0_4px_15px_rgba(24,119,242,0.3)] transition-all hover:shadow-[0_6px_20px_rgba(24,119,242,0.4)] hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                     {isPending ? (
                         <Loader2 className="animate-spin" size={20} />

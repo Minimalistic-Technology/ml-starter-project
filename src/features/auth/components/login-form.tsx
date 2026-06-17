@@ -1,59 +1,24 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "../schema/auth-schema";
 import { LoginValues } from "../types/auth-type";
 import { useLogin } from "../hooks/use-login";
-import { useVerifyOTP } from "../hooks/use-verify-otp";
-import { useForgotPassword } from "../hooks/use-forgot-password";
-import { useResetPassword } from "../hooks/use-reset-password";
 import Link from "next/link";
 import { isAxiosError } from "@/lib/api";
-import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useAuth } from "../context/auth-context";
-import { Mail, Lock, ShieldCheck, ArrowRight, Loader2, KeyRound, ArrowLeft } from "lucide-react";
+import { Mail, Loader2 } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
+
 const LoginForm = () => {
-  const router = useRouter();
   const { refreshUser } = useAuth();
 
-  // Normal Login OTP State
-  const [showOTP, setShowOTP] = useState(false);
-  const [userEmail, setUserEmail] = useState("");
-  const [otpValue, setOtpValue] = useState("");
-
-  // OTP Countdown Timer State
-  const [timer, setTimer] = useState(120);
-
-  React.useEffect(() => {
-    if (!showOTP) return;
-    setTimer(120);
-    const interval = setInterval(() => {
-      setTimer((prev) => {
-        if (prev <= 1) {
-          clearInterval(interval);
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-    return () => clearInterval(interval);
-  }, [showOTP]);
-
-  const formatTimer = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
-  };
-
-  // Queries/Mutations Hooks
   const { mutate: loginMutate, isPending: isLoginPending } = useLogin();
-  const { mutate: verifyMutate, isPending: isVerifyPending } = useVerifyOTP();
 
   const {
     register,
@@ -63,20 +28,18 @@ const LoginForm = () => {
     resolver: zodResolver(loginSchema),
   });
 
-  // ── Normal Login Flow ────────────────────────────────────────────────────────
   const onSubmit = (data: LoginValues) => {
     loginMutate(data, {
       onSuccess: (res: any) => {
         const userRole = res?.data?.user?.role?.toLowerCase();
-
-        if (userRole === "admin") {
-          toast.success("Welcome, Admin!");
-          setTimeout(() => { window.location.href = "/dashboard"; }, 600);
-        } else {
-          toast.success("OTP sent to your email!");
-          setUserEmail(data.email);
-          setShowOTP(true);
-        }
+        toast.success("Login successful! Welcome back.");
+        setTimeout(() => {
+          if (userRole === "admin") {
+            window.location.href = "/dashboard";
+          } else {
+            window.location.href = "/my-blogs";
+          }
+        }, 600);
       },
       onError: (err) => {
         toast.error(isAxiosError(err) ? err.response?.data?.message : "Login failed");
@@ -84,91 +47,6 @@ const LoginForm = () => {
     });
   };
 
-  const onVerifyOTP = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (otpValue.length !== 6) {
-      toast.error("Please enter a valid 6-digit OTP");
-      return;
-    }
-
-    verifyMutate({ email: userEmail, otp: otpValue }, {
-      onSuccess: () => {
-        toast.success("Login successful! Welcome back.");
-        setTimeout(() => { window.location.href = "/my-blogs"; }, 600);
-      },
-      onError: (err) => {
-        toast.error(isAxiosError(err) ? err.response?.data?.message : "Verification failed");
-      }
-    });
-  };
-  if (showOTP) {
-    return (
-      <div className="w-full mx-auto p-8 sm:p-10 bg-white dark:bg-[#0a0a0a] rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)] border border-gray-100 dark:border-white/5 animate-in fade-in zoom-in duration-300">
-        <div className="flex flex-col items-center mb-8">
-          <div className="w-16 h-16 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-2xl flex items-center justify-center mb-4">
-            <ShieldCheck size={32} />
-          </div>
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white tracking-tight">Security Check</h2>
-          <p className="text-gray-500 dark:text-gray-400 mt-2 text-center text-sm font-medium">
-            We've sent a 6-digit code to <br />
-            <span className="text-gray-900 dark:text-gray-200 font-bold">{userEmail}</span>
-          </p>
-        </div>
-
-        <form onSubmit={onVerifyOTP} className="space-y-6">
-          <div>
-            <div className="flex justify-between items-center mb-2">
-              <label className="block text-xs font-semibold text-gray-600 dark:text-gray-300">Verification Code</label>
-              <span className={`text-xs font-bold ${timer === 0 ? "text-red-500 animate-pulse" : "text-[#1877F2] flex items-center gap-1"}`}>
-                {timer > 0 ? (
-                  <>
-                    <span className="inline-block w-1.5 h-1.5 rounded-full bg-blue-500 animate-ping" />
-                    Expires in {formatTimer(timer)}
-                  </>
-                ) : (
-                  "Code expired"
-                )}
-              </span>
-            </div>
-            <input
-              value={otpValue}
-              onChange={(e) => setOtpValue(e.target.value.replace(/\D/g, "").slice(0, 6))}
-              type="text"
-              maxLength={6}
-              className="w-full py-4 bg-white dark:bg-[#111] border border-gray-200 dark:border-white/10 rounded-xl text-2xl font-bold tracking-[1em] text-center text-gray-900 dark:text-white focus:border-blue-500 dark:focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all placeholder:text-gray-300 dark:placeholder:text-gray-700"
-              placeholder="000000"
-              required
-            />
-          </div>
-
-          <button
-            type="submit"
-            disabled={isVerifyPending || otpValue.length !== 6 || timer === 0}
-            className="group w-full py-3.5 bg-[#1877F2] hover:bg-blue-600 text-white font-semibold rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-          >
-            {isVerifyPending ? (
-              <Loader2 className="animate-spin" size={18} />
-            ) : (
-              <>
-                Verify & Login
-                <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-              </>
-            )}
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setShowOTP(false)}
-            className="w-full text-sm font-semibold text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
-          >
-            Back to Login
-          </button>
-        </form>
-      </div>
-    );
-  }
-
-  // ── SCREEN C: Normal Login Form ──────────────────────────────────────────────
   return (
     <Card className="w-full mx-auto animate-in fade-in zoom-in duration-300">
       <div className="flex flex-col items-center mb-8">
