@@ -821,6 +821,7 @@ const AdminPanel = () => {
                 </p>
                 <div className="flex gap-2">
                   <Button
+                    variant="none"
                     disabled={permPage === 1}
                     onClick={() => setPermPage(prev => Math.max(prev - 1, 1))}
                     className="px-4 py-2 bg-theme-element border border-theme-accent/20 text-foreground text-xs font-black rounded-lg transition-all hover:bg-theme-element-sec disabled:opacity-50 disabled:cursor-not-allowed"
@@ -831,6 +832,7 @@ const AdminPanel = () => {
                     Page {permPage} of {totalPermPages}
                   </span>
                   <Button
+                    variant="none"
                     disabled={permPage === totalPermPages}
                     onClick={() => setPermPage(prev => Math.min(prev + 1, totalPermPages))}
                     className="px-4 py-2 bg-theme-element border border-theme-accent/20 text-foreground text-xs font-black rounded-lg transition-all hover:bg-theme-element-sec disabled:opacity-50 disabled:cursor-not-allowed"
